@@ -21,11 +21,11 @@ switch method
     case 'kde'                   % 自适应带宽的核密度估计函数
         densityMatrix = MyKde(data,label,1);
         model.method = 'kde';
-        model.desityMatrix = densityMatrix;
+        model.densityMatrix = densityMatrix;
     case 'ksd'                   % 固定带宽的核密度估计函数
         densityMatrix = MyKde(data,label,2);
         model.method = 'ksd';
-        model.desityMatrix = densityMatrix;
+        model.densityMatrix = densityMatrix;
     case 'GaussianVar'           % 采用方差的高斯估计
         gaussParam = MyGaussian(data,label,'var');
         model.method = 'GaussianVar';
@@ -64,9 +64,12 @@ for i = 1:nlabels             % i对应不同的label
 end
 end
 if d == 2                     % 固定带宽的核密度函数
+    numPoints = 100;
+    f = zeros(nfeatures,numPoints,nlabels);
+    xi = zeros(nfeatures,numPoints,nlabels);
 for i = 1:nlabels             % i对应不同的label，label=labelNames(i)
    for j = 1:nfeatures        % j=1~6分别对应AC CNL DEN GR PE RLLD
-       [~,ff,xxi,~] = ksdensity(data(label==labelNames(i),j),numPoints); 
+       [~,ff,xxi,~] = ksdensity(data(label==labelNames(i),j),'NumPoints',numPoints); 
        f(j,:,i) = ff+0.000000001;
        xi(j,:,i) = xxi;
    end
@@ -113,9 +116,9 @@ while GMMOK == 1
 try
 for i = 1:nlabels
     GMModl = fitgmdist(data(label==labelNames(i),:),num,'Options',options) ;
-    P.weight(i+1,:) = GMModl.ComponentProportion;
-    P.Means(:,:,i+1) = GMModl.mu;
-    P.Covariance(:,:,:,i+1) = GMModl.Sigma;
+    P.weight(i,:) = GMModl.ComponentProportion;
+    P.Means(:,:,i) = GMModl.mu;
+    P.Covariance(:,:,:,i) = GMModl.Sigma;
 end
 GMMOK = 0;
 catch 
