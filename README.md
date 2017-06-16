@@ -12,6 +12,6 @@
 
 ## 研究成果图
 ![ksd kde 对比图1](https://github.com/SmileEan2/StudyBayes/blob/master/Figures/kdeVSksd.jpg)
-![ksd kde 对比图2](/Users/ean2/Documents/GitHub/StudyBayes/Figures/kdeVSksd2.jpg)
-![AttKsdGauGMM3](/Users/ean2/Documents/GitHub/StudyBayes/Figures/AttKsdGauGMM3.jpg)
-![RightRateCompare](/Users/ean2/Documents/GitHub/StudyBayes/Figures/RightRateCompare.jpg)
+![ksd kde 对比图2](https://github.com/SmileEan2/StudyBayes/blob/master/Figures/kdeVSksd2.jpg)
+![AttKsdGauGMM3](https://github.com/SmileEan2/StudyBayes/blob/master/Figures/AttKsdGauGMM3.jpg)
+![RightRateCompare](https://github.com/SmileEan2/StudyBayes/blob/master/Figures/RightRateCompare.jpg)
