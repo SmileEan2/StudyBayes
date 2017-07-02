@@ -36,13 +36,14 @@ RightRate(i,:) = [labelPred_kde.score,   labelPred_ksd.score,...
                   labelPred_GMM3.score]; % 存在问题：labelPred_ksd.score不正确
 end
 % 对结果进行储存
-columnsCell = {'WellName','kde','ksd','GauVar','GauCov','GMM3'};
-xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
-          columnsCell,'A1:F1');
-xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
-         fileNames,['A2:A',num2str(1+length(fileNames))]);
-xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
-         RightRate,'B2'); %这里出现问题：警告：无法启动Excel服务器
+% columnsCell = {'WellName','kde','ksd','GauVar','GauCov','GMM3'};
+% xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
+%           columnsCell,'A1:F1');
+% xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
+%          fileNames,['A2:A',num2str(1+length(fileNames))]);
+% xlswrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/PredictScore.xlsx',...
+%          RightRate,'B2'); %这里出现问题：警告：无法启动Excel服务器
+dlmwrite('/Users/ean2/Documents/GitHub/StudyBayes/Data/Score.txt',RightRate)
 %% plot1:
 % 进行数据的概率密度函数估计，比较kde.m函数与ksdensity函数
 for i = 1:6
@@ -118,11 +119,11 @@ for i = 1:7 % 7个类别
         plot(xi,f2,'r--');hold on;
         plot(xi,f3,'r--');hold on;
         
-        % Gaussian 曲线
-        pd = makedist('Normal',P1.mu(i,j),sqrt(P1.sigma(j,j,i)));
-        ff = pdf(pd,xi);
-        plot(xi,ff,'b-');hold off;
-        xlabel([ClassName{j},' ',FeatureName{j}]);     
+%         % Gaussian 曲线
+%         pd = makedist('Normal',P1.mu(i,j),sqrt(P1.sigma(j,j,i)));
+%         ff = pdf(pd,xi);
+%         plot(xi,ff,'b-');hold off;
+%         xlabel([ClassName{j},' ',FeatureName{j}]);     
     end
 end
 %end
@@ -130,10 +131,10 @@ end
 % 不同概率密度函数（kde ksd GauVar GauCov GMM3）预测结果对比
 % 导入score.xlsx
 clc
-Score = importdata('/Users/ean2/Documents/GitHub/StudyBayes/Data/Score.xlsx');
+Score = importdata('/Users/ean2/Documents/GitHub/StudyBayes/Data/Score.txt');
 % kde vs ksd
 subplot(3,1,1)
-ScoreSort1 = sortrows(Score.data,1); % 按照ksd升序排列
+ScoreSort1 = sortrows(Score,1); % 按照ksd升序排列
 plot(1:89,ScoreSort1(:,1),'k-','LineWidth',1);hold on;
 plot(1:89,ScoreSort1(:,2),'r-','LineWidth',1);hold off;
 legend('kde','ksd')
@@ -141,7 +142,7 @@ legend('Location','southeast') % 图例设置在右下角
 ylabel('RightRate%')
 % GauVar vs GauCov
 subplot(3,1,2)
-ScoreSort3 = sortrows(Score.data,3); % 按照GauVar升序排列
+ScoreSort3 = sortrows(Score,3); % 按照GauVar升序排列
 plot(1:89,ScoreSort3(:,3),'k-','LineWidth',1);hold on;
 plot(1:89,ScoreSort3(:,4),'r-','LineWidth',1);hold off;
 legend('GauVar','GauCov')
@@ -149,7 +150,7 @@ legend('Location','southeast')
 ylabel('RightRate%')
 % kde Vs GauCov Vs GMM3
 subplot(3,1,3)
-ScoreSort4 = sortrows(Score.data,4); % 按照GauCov升序排列
+ScoreSort4 = sortrows(Score,4); % 按照GauCov升序排列
 plot(1:89,ScoreSort4(:,1),'b-','LineWidth',1);hold on;
 plot(1:89,ScoreSort4(:,4),'k-','LineWidth',1);hold on;
 plot(1:89,ScoreSort4(:,5),'r-','LineWidth',1);hold off;

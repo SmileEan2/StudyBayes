@@ -69,7 +69,7 @@ if d == 2                     % 固定带宽的核密度函数
     xi = zeros(nfeatures,numPoints,nlabels);
 for i = 1:nlabels             % i对应不同的label，label=labelNames(i)
    for j = 1:nfeatures        % j=1~6分别对应AC CNL DEN GR PE RLLD
-       [~,ff,xxi,~] = ksdensity(data(label==labelNames(i),j),'NumPoints',numPoints); 
+       [ff,xxi] = ksdensity(data(label==labelNames(i),j),'NumPoints',numPoints); 
        f(j,:,i) = ff+0.000000001;
        xi(j,:,i) = xxi;
    end
